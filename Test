@@ -1,0 +1,29 @@
+
+
+ _     _  _       _   _  _   _   _
+| | |  _| _| |_| |_  |_   | |_| |_|
+|_| | |_  _|   |  _| |_|  | |_|  _|
+
+
+		String[] zeroAsDigit = {" _  ", "| | ", "|_| "};
+		String[] oneAsDigit = {"  ", " | ", " | "};
+		String[] twoAsDigit = {" _ ", " _| ",  "|_ "};
+		String[] threeAsDigit =  {" _ ", " _| " ,  " _| "};
+		String[] fourAsDigit =  {"   " , "|_| " ,  "  | "};
+		String[] fiveAsDigit =  {"  _ " , "|_ " ,  " _| "};
+		String[] sixAsDigit =  {" _ " , "|_ " ,  "|_| "};
+		String[] sevenAsDigit = {"  _ " , " | " , " | "};
+		String[] eightAsDigit =  {" _ " , "|_| " ,  "|_| "};
+		String[] nineAsDigit =  {" _ " , "|_| " ,  " _| "};
+		
+		
+ _     _  _    _   _  _   _   _  
+| | |  _| _|  |_  |_   | |_| |_| |_|
+|_| | |_  _|   _| |_|  | |_|  _|   |
+
+
+
+
+ _            _      _  _  _  _ 
+|_|  | |_|  |  |  | |_ |_| |_  _| 
+ _|  |   |  |  |  |  _|  _|  _| |_
