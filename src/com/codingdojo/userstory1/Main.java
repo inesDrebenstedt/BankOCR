@@ -7,7 +7,8 @@ public class Main {
 		
 		SegmentsToString sts = new SegmentsToString();
 		sts.readSegmentLineAndConvertToString();
-
+		//sts.fileConverter();
+		
 	}
 
 }

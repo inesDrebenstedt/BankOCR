@@ -9,42 +9,44 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 public class SegmentsToString {
 	
 	public static CharSequence[] poolOfSegmentedNumbers = new CharSequence[10];	
 
-	public void fileConverter(){
-		try {
-			BufferedReader in = new BufferedReader(new FileReader("digitList.txt"));//reads file created above, substitute with file path here
-			String str;
-			File newFile = new File("accountNumbersList.txt");
-			newFile.setWritable(true);
-			newFile.setReadable(true);
-			BufferedWriter out = new BufferedWriter(new FileWriter(newFile, true));
-			
-				while( (str = in.readLine()) != null) {
-					//TODO
-					out.append("\n");					
-					out.write( "TODO"
-//							( convertSequenceToString(
-//						             	determineSequence(  									
-//									          in.readLine() 									
-//									)))
-							);
-	// is needed bc. otherwise will give java.lang.NullPointerException: Cannot invoke "String.charAt(int)" because "listItem" is null
-	str = in.readLine();
-				}
-				
-				in.close();
-				out.close();
-				
-			} catch (IOException e) {
-				System.out.println("Exception occured in checkIfFirstLineIsEmpty(): " + e );
-				e.printStackTrace();
-			}
-	}
+//	public void fileConverter(){
+//		try {
+//			BufferedReader in = new BufferedReader(new FileReader("digitList.txt"));//reads file created above, substitute with file path here
+//			String str;
+//			File newFile = new File("accountNumbersList.txt");
+//			newFile.setWritable(true);
+//			newFile.setReadable(true);
+//			BufferedWriter out = new BufferedWriter(new FileWriter(newFile, true));
+//			
+//				while( (str = in.readLine()) != null) {
+//					//TODO
+//					out.append("\n");					
+//					out.append( readSegmentLineAndConvertToString() );
+//	// is needed bc. otherwise will give java.lang.NullPointerException: Cannot invoke "String.charAt(int)" because "listItem" is null
+//	str = in.readLine();
+//				}
+//				
+//				in.close();
+//				out.close();
+//				
+//			} catch (IOException e) {
+//				System.out.println("Exception occured in checkIfFirstLineIsEmpty(): " + e );
+//				e.printStackTrace();
+//			}
+//	}
 	
-	public ArrayList<String[]> readSegmentLineAndConvertToString(){
+	public StringBuilder readSegmentLineAndConvertToString(){
+		
+		int count = 0;
+		
+		StringBuilder result = new StringBuilder();
+		ArrayList<StringBuilder> resultList = new ArrayList<StringBuilder>();
 				
 		String erste = "";
 		String zweite = "";
@@ -56,19 +58,27 @@ public class SegmentsToString {
 		String achte = "";
 		String neunte = "";
 		
-		ArrayList<String> firstArabics = new ArrayList<String>();
+		//ArrayList<String> firstArabics = new ArrayList<String>();
 		ArrayList<String> singleGroupOfFourLines = new ArrayList<String>();
 		ArrayList<ArrayList<String>> allGroupsOfFourLines = new ArrayList<ArrayList<String>>();
 		
 		try {
 			BufferedReader in = new BufferedReader(new FileReader("digitList.txt"));//reads file created above, substitute with file path here
 			String str;
+			File newFile = new File("accountNumbersList.txt");
+			newFile.setWritable(true);
+			newFile.setReadable(true);
+			BufferedWriter out = new BufferedWriter(new FileWriter(newFile, true));
+			
  			
 			int lineCounter = 0;
 			//parse through file, take each 4 lines and put them into group
 				while( (str = in.readLine()) != null) {
+		
+					count++;
 					
 					if(str.length() != 0){						
+					//str = in.readLine();
 					
 						CharSequence first = str.subSequence(0, 3);						
 						erste += first + "\n";						
@@ -89,41 +99,76 @@ public class SegmentsToString {
 						CharSequence nineth = str.subSequence(24, 27);
 						neunte += nineth + "\n";
 						
-						//System.out.println(first );
-//								+ " " + second 
-//								+ " " + third + " " + fourth + " " + fifth 
-//								+ " " + sixth + " " + seventh + " " + eighth 
-//								+ " " + nineth);											
+						System.out.println(first 
+								+ " " + second 
+								+ " " + third + " " + fourth + " " + fifth 
+								+ " " + sixth + " " + seventh + " " + eighth 
+								+ " " + nineth);	
+						
+						out.append("\n");					
+						out.append( first 
+								+ " " + second 
+								+ " " + third + " " + fourth + " " + fifth 
+								+ " " + sixth + " " + seventh + " " + eighth 
+								+ " " + nineth );
 					}
 
 					//System.out.println("line count" + lineCounter);
 					lineCounter++;
 					
 					//System.out.println("-> " + str );//+ ", linecount: " + lineCounter);
-					//singleGroupOfFourLines.add(str);	
+					singleGroupOfFourLines.add(str);	
 					
 					if( (lineCounter / 4) == 1){
 						lineCounter = 0;
 						allGroupsOfFourLines.add(singleGroupOfFourLines);
-						firstArabics.add(erste);
+						//firstArabics.add(erste);
+//												
+						
+						result.append( takeDigitalNumberAndConvertItToChar(erste)
+								+ takeDigitalNumberAndConvertItToChar(zweite)
+								+ takeDigitalNumberAndConvertItToChar(dritte)
+								+ takeDigitalNumberAndConvertItToChar(vierte)
+								+ takeDigitalNumberAndConvertItToChar(fuenfte)
+								+ takeDigitalNumberAndConvertItToChar(sechste)
+								+ takeDigitalNumberAndConvertItToChar(siebte)
+								+ takeDigitalNumberAndConvertItToChar(achte)
+								+ takeDigitalNumberAndConvertItToChar(neunte)
+						        + "\n");
+						
+						resultList.add(result);
+						
+						//System.out.println(result);
+//						System.out.println("++++++++++++++++++++++++++++++++++++");
+//						System.out.println( resultList.get(resultList.size()-1));
+//						System.out.println("++++++++++++++++++++++++++++++++++++");
+
+						
+						 erste = "";
+						 zweite = "";
+						 dritte = "";
+						 vierte = "";
+						 fuenfte = "";
+						 sechste = "";
+						 siebte = "";
+						 achte = "";
+						 neunte = "";
+						
+						System.out.println("count: " + count);
 						System.out.println("Group completed!, # " + allGroupsOfFourLines.size());						
 					}	
 					
-					if( (lineCounter % 3) == 0){
 
-						//test(erste);
-					}
-					
-					
 					
 	// is not allowed here bc. otherwise will give nonsense String output
 	//str = in.readLine();
+				
 				}
 				
 				in.close();
+				out.close();
 				
-				//test2(firstArabics);
-				//test(erste); test(zweite);
+				//test(zweite);
 				
 				//System.out.println("1st: " + erste );
 				//System.out.println("2nd: " + zweite);
@@ -133,12 +178,12 @@ public class SegmentsToString {
 				e.printStackTrace();
 			}
 		
-		return null;
+		return result;
 	}
 	
-	public void test(String numberOverThreeLines){
+	public String takeDigitalNumberAndConvertItToChar(String numberOverThreeLines){
 		
-		Character[] individualNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+		String[] individualNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 		String[] numbersAsDigits = new String[10];
 		
 //		String zeroAsDigit = 
@@ -163,10 +208,12 @@ public class SegmentsToString {
 		numbersAsDigits[9] = " _ " + "\n" + "|_|" + "\n" +  " _|" + "\n";
 				
 		String threeLiner = numberOverThreeLines.substring(0, 12);
+		String result = null;
 		
 		for(int i = 0; i < numbersAsDigits.length; i++){
 			if(numbersAsDigits[i].contains(threeLiner)){
-				System.out.print( individualNumbers[i] );
+				result = individualNumbers[i];
+				//System.out.print( individualNumbers[i] );
 			}
 		}
 		
@@ -180,7 +227,7 @@ public class SegmentsToString {
 //		boolean test = fiveAsDigit.contentEquals(cs1);
 //		System.out.println(test);
 
-			
+			return result;
 	}
 	
 	public void test2(ArrayList<String> firstArabics){
